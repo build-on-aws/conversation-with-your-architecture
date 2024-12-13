@@ -1,0 +1,41 @@
+sequenceDiagram
+    actor User
+    participant App as Architecture Chat Demo
+    participant Bedrock as Amazon Bedrock
+    participant Model as Foundation Model
+    participant Tool as Joy Count Tool
+
+    User->>App: Start conversation
+    App->>User: Request architecture diagram file
+    User->>App: Provide file name
+    App->>App: Load image file
+    User->>App: Enter query
+    App->>App: Create message with image and text
+    App->>Bedrock: Send conversation to Bedrock
+    Bedrock->>Model: Process query
+
+    alt Model needs tool use
+        Model->>Bedrock: Request tool use
+        Bedrock->>App: Return with stop reason "tool_use"
+        App->>Tool: Execute tool with input
+        Tool->>App: Return tool results
+        App->>Bedrock: Send tool results back
+        Bedrock->>Model: Process tool results
+    end
+
+    Model->>Bedrock: Generate response
+    Bedrock->>App: Return with stop reason "end_turn"
+    App->>User: Display model response
+
+    loop Until user exits
+        User->>App: Enter next query
+        App->>Bedrock: Send updated conversation
+        Bedrock->>Model: Process query
+        Note over Model,Bedrock: Repeat tool use if needed
+        Model->>Bedrock: Generate response
+        Bedrock->>App: Return response
+        App->>User: Display model response
+    end
+
+    User->>App: Exit conversation
+    App->>User: End demo
