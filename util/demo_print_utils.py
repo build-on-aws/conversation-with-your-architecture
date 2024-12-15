@@ -24,6 +24,7 @@ def header():
     print("- Convert the data flow from this architecture into a Mermaid formatted sequence diagram.")
     print("- What are the quotas or limits in this architecture?")
     print("- Can you generate the Cloudformation/CDK/Terraform code to provision this architecture?")
+    print("- What is the joy count of this system?")
     print("")
     print("To exit the program, simply type 'x' and press Enter.")
     print("")

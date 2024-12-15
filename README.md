@@ -1,12 +1,10 @@
 # Conversation With Your Architecture Demo
 
-This project demonstrates how to chat with your architecture using Amazon Bedrock's Converse API, tool use, and a knowledge base. Implemented in Python, the demo allows users to analyze architecture diagrams, evaluate effectiveness, get recommendations, and make informed decisions about their system architecture.
+This project demonstrates how to chat with your architecture using Amazon Bedrock's Converse API and tool use. Implemented in Python, the demo allows users to analyze architecture diagrams, evaluate effectiveness, get recommendations, and make informed decisions about their system architecture.
 
-The application interacts with a foundation model on Amazon Bedrock to provide information based on an architecture diagram and user input. It utilizes three custom tools to gather information:
+The application interacts with a foundation model on Amazon Bedrock to provide information based on an architecture diagram and user input. It utilizes a custom tool to gather information:
 
-1. Audit Info Tool: Provides audit information about a system based on the system name inferred from the architecture diagram file name.
-2. Joy Count Tool: Provides joy count data about a system.
-3. Best Practices Tool: Provides a company's best practices information, including best practices around how much joy the application is generating.
+- Joy Count Tool: Provides joy count data about a system.
 
 This demo is based on the [Amazon Bedrock Tool Use Demo](https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/python/example_code/bedrock-runtime/cross-model-scenarios/tool_use_demo) and parts of [Amazon Bedrock: Enhance HR Support with Function Calling & Knowledge Bases blog post](https://community.aws/content/2izvh9HlmMvgYyRMoOUbkR0bNPV/enhancing-hr-support-with-function-calling-and-knowledge-bases-in-amazon-bedrock).
 
@@ -17,12 +15,8 @@ Running this app may result in charges to your AWS account.
 ## Repository Structure
 
 - `architecture_chat_demo.py`: Main entry point for the demo application.
-- `audit_info_tool.py`: Implementation of the Audit Info Tool.
-- `best_practices_tool.py`: Implementation of the Best Practices Tool.
 - `joy_count_tool.py`: Implementation of the Joy Count Tool.
 - `demo/`: Directory containing sample data files.
-  - `audit-info.json`: Sample audit information for the Fluffy Puppy Joy Generator system.
-  - `best-practices-data.md`: Sample best practices data for the organization
   - `joy-count.json`: Sample joy count data for the Fluffy Puppy Joy Generator system.
   - `fluffy-puppy-joy-generator.png`: Sample architecture diagram image for the Fluffy Puppy Joy Generator system.
   - `fluffy-puppy-joy-generator.drawio`: Sample architecture diagram Draw.io format for the Fluffy Puppy Joy Generator system.
@@ -47,7 +41,6 @@ Set up your custom environmeng variables by creating a `.env` file in the projec
      
 ```
 AWS_REGION=<your-aws-region>
-KNOWLEDGE_BASE_ID=<your-knowledge-base-id>
 ```
 
 ### Run the app
@@ -78,22 +71,15 @@ Below are some sample queries you could use to chat with an architecture diagram
 - What improvements should be made to the resiliency of this architecture?
 - Convert the data flow from this architecture into a Mermaid formatted sequence diagram.
 - What are the quotas or limits in this architecture?
-
-### Bonus: Generate the infrastructure code
-
-Depending on the type of diagram you're chatting with, you could also enter the following query to generate the infrastructure code:
-
-```plaintext
-Can you generate the Terraform code to provision this architecture?
-```
+- What is the joy count of this system?
 
 ## Data Flow
 
 1. User Input: The user provides input through the command-line interface.
 2. Architecture Chat Demo: The main `ArchitectureChatDemo` class processes the user input and manages the conversation flow.
-3. Amazon Bedrock: The user's input is sent to Amazon Bedrock's Converse API along with the system prompt and tool configurations.
-4. Tool Invocation: Based on the model's response, the appropriate tool (Audit Info, Joy Count, or Best Practices) is invoked.
-5. Tool Processing: The invoked tool fetches data from its respective source (JSON files or knowledge base).
+3. Amazon Bedrock: The user's input is sent to Amazon Bedrock's Converse API along with the system prompt and tool configuration.
+4. Tool Invocation: Based on the model's response, the appropriate tool (Joy Count) is invoked.
+5. Tool Processing: The invoked tool fetches data from its respective source (a JSON file).
 6. Response Generation: The tool's output is sent back to Amazon Bedrock for further processing and response generation.
 7. User Output: The final response is displayed to the user through the command-line interface.
 

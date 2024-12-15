@@ -2,9 +2,7 @@ sequenceDiagram
     participant User
     participant ArchitectureChatDemo
     participant BedrockRuntime
-    participant AuditInfoTool
     participant JoyCountTool
-    participant BestPracticesTool
 
     User->>ArchitectureChatDemo: Start conversation
     ArchitectureChatDemo->>User: Request architecture diagram filename
@@ -24,15 +22,9 @@ sequenceDiagram
 
         alt Tool use requested
             BedrockRuntime-->>ArchitectureChatDemo: Request tool execution
-            alt Audit Info requested
-                ArchitectureChatDemo->>AuditInfoTool: Invoke tool
-                AuditInfoTool-->>ArchitectureChatDemo: Return audit data
-            else Joy Count requested
+            alt Joy Count requested
                 ArchitectureChatDemo->>JoyCountTool: Invoke tool
                 JoyCountTool-->>ArchitectureChatDemo: Return joy count
-            else Best Practices requested
-                ArchitectureChatDemo->>BestPracticesTool: Invoke tool
-                BestPracticesTool-->>ArchitectureChatDemo: Return best practices
             end
             ArchitectureChatDemo->>BedrockRuntime: Send tool results
         end

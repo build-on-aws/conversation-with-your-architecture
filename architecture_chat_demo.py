@@ -4,7 +4,7 @@
 """
 This demo illustrates how to chat with your architecture to analyze architecture diagrams, evaluate
 effectiveness, get recommendations and make informed decisions, and generate new diagrams that reflect your
-environment, system, and company standards. It uses Amazon Bedrock's Converse API, tool use, and a knowledge base.
+environment, system, and company standards. It uses Amazon Bedrock's Converse API and tool use.
 The script interacts with a foundation model on Amazon Bedrock to provide information based on an architecture diagram
 and user input.
 """
@@ -16,7 +16,7 @@ from enum import Enum
 from dotenv import load_dotenv
 
 import util.demo_print_utils as output
-import audit_info_tool, best_practices_tool, joy_count_tool
+import joy_count_tool
 
 logging.basicConfig(level=logging.INFO, format="%(message)s")
 
@@ -44,31 +44,22 @@ image_formats = {
 MODEL_ID = SupportedModels.CLAUDE_SONNET_35.value
 
 SYSTEM_PROMPT = """
-You are an AWS Solutions Architect who can answer questions about an architecture diagram. You have access to three tools:
+You are an AWS Solutions Architect who can answer questions about an architecture diagram. You have access to one tool:
 
-1. You provide audit information about a system using only the Audit_Info_Tool, which expects system name.
-Infer the system name from the file name of the architecture diagram you're analyzing. To use the tool, you
-strictly apply the provided tool specification.
-2. You provide joy count data about a system using only the Joy_Count_Tool. To use the tool, you strictly apply the
+You provide joy count data about a system using only the Joy_Count_Tool. To use the tool, you strictly apply the
 provided tool specification.
-3. You provide a company's best practices information, including best practices around how much joy the application
-is generating, using only the Best_Practices_Tool. If there are no best practices for the query, fallback to use the AWS Well Architected Framework,
-cloud architecture best practices, or state you don't have the information. To use the tool,
-you strictly apply the provided tool specification.
 
-You can use all tools multiple times in a single response. You can also use one tool or the other
-based on the user's request.
+You can use the tool multiple times in a single response.
 
 - Only use a tool if explicitly asked for that information.
 - Explain your step-by-step process, and give brief updates before each step.
 - Repeat the tool use for subsequent requests if necessary.
 - If the tool errors, apologize, explain the tool information is unavailable, and suggest other options.
-- Never claim to search online, access external data, or use tools besides Audit_Info_Tool, Joy_Count_Tool, or the
-Best_Practices tool.
+- Never claim to search online, access external data, or use tools besides Joy_Count_Tool.
 - Complete the entire process until you have all required data before sending the complete response.
 """
 
-# The maximum number of recursive calls allowed in the run function.
+# The maximum number of recursive calls allowed in the tool_use_demo function.
 # This helps prevent infinite loops and potential performance issues.
 MAX_RECURSIONS = 5
 
@@ -82,7 +73,7 @@ class ArchitectureChatDemo:
         self.system_prompt = [{"text": SYSTEM_PROMPT}]
 
         # Prepare the tool configuration with the tool's specification
-        self.tool_config = {"tools": [audit_info_tool.get_tool_spec(), joy_count_tool.get_tool_spec(), best_practices_tool.get_tool_spec()]}
+        self.tool_config = {"tools": [joy_count_tool.get_tool_spec()]}
 
         # Create a Bedrock Runtime client in the specified AWS Region.
         self.bedrock_runtime_client = boto3.client(
@@ -274,24 +265,12 @@ class ArchitectureChatDemo:
         """
         tool_name = payload["name"]
 
-        if tool_name == "Audit_Info_Tool":
-            input_data = payload["input"]
-            output.tool_use(tool_name, input_data)
-
-            # Invoke the tool with the input data provided
-            response = audit_info_tool.fetch_audit_info_data(input_data)
-        elif tool_name == "Joy_Count_Tool":
+        if tool_name == "Joy_Count_Tool":
             input_data = payload["input"]
             output.tool_use(tool_name, input_data)
 
             # Invoke the tool
             response = joy_count_tool.fetch_joy_count_data()
-        elif tool_name == "Best_Practices_Tool":
-            input_data = payload["input"]
-            output.tool_use(tool_name, input_data)
-
-            # Invoke the tool with the input data provided
-            response = best_practices_tool.fetch_best_practices_data(input_data)
         else:
             error_message = (
                 f"The requested tool with name '{tool_name}' does not exist."
