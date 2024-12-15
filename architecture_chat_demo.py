@@ -68,7 +68,7 @@ Best_Practices tool.
 - Complete the entire process until you have all required data before sending the complete response.
 """
 
-# The maximum number of recursive calls allowed in the tool_use_demo function.
+# The maximum number of recursive calls allowed in the run function.
 # This helps prevent infinite loops and potential performance issues.
 MAX_RECURSIONS = 5
 
