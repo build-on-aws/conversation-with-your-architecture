@@ -52,7 +52,7 @@ KNOWLEDGE_BASE_ID=<your-knowledge-base-id>
 
 ### Run the app
 
-To run the app, run the following command in your virtual environment:
+1. To run the app, run the following command in your virtual environment:
 
 ```bash
 python architecture_chat_demo.py
