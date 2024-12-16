@@ -38,7 +38,7 @@ To run this demo, you'll need a few bits set up first:
 
 - An AWS account. You can create your account [here](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/).
 - Request access to an AI model (we'll use Claude Sonnet) on Amazon Bedrock before you can use it. Learn about model access [here](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html).
-- [Python 3.6.0 or later](https://www.python.org/) setup and configured on your system.
+- [Python 3.10.16 or later](https://www.python.org/) setup and configured on your system.
 - A [python virtual environment setup](https://docs.python.org/3/library/venv.html) with packages installed via [requirements.txt](requirements.txt).
 
 ### Setup
