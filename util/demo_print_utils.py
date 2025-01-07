@@ -23,6 +23,8 @@ def header():
     print("- What improvements should be made to the resiliency of this architecture?")
     print("- Convert the data flow from this architecture into a Mermaid formatted sequence diagram.")
     print("- What are the quotas or limits in this architecture?")
+    print("- What is the current joy count of the system?")
+    print("- Is the current joy count good or bad?")
     print("- Can you generate the Cloudformation/CDK/Terraform code to provision this architecture?")
     print("")
     print("To exit the program, simply type 'x' and press Enter.")
