@@ -2,6 +2,16 @@
 
 This project demonstrates how to chat with your architecture using Amazon Bedrock's Converse API, tool use, and a knowledge base. Implemented in Python, the demo allows users to analyze architecture diagrams, evaluate effectiveness, get recommendations, and make informed decisions about their system architecture.
 
+This project accompanies the following resources:
+- Blog post: [A conversation with your architecture](https://community.aws/content/2qM2qCmPCaAByW0bDVR7OdBo1dF/a-conversation-with-your-architecture)
+- Video series:
+  - [Episode 1: Build a Python App to Chat with Architecture Diagrams](https://www.youtube.com/watch?v=34OV3JDvveg)
+  - Episode 2: Incorporate real-time data in your architecture diagram analysis with tool use (coming soon)
+  - Episode 3: Incorporate custom data in your architecture diagram analysis with a knowledge base (coming soon)
+- Workshop: [Harnessing generative AI to create and understand architecture diagrams ](https://catalog.workshops.aws/generative-ai-architecture-diagrams)
+
+## Overview
+
 The application interacts with a foundation model on Amazon Bedrock to provide information based on an architecture diagram and user input. It utilizes three custom tools to gather information:
 
 1. Audit Info Tool: Provides audit information about a system based on the system name inferred from the architecture diagram file name.
@@ -43,7 +53,13 @@ To run this demo, you'll need a few bits set up first:
 
 ### Setup
 
-Set up your custom environmeng variables by creating a `.env` file in the project root directory with the following content:
+#### Amazon Bedrock Knowledge Base
+
+You can set up a knowledge base using [these instructions](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-create.html). Note that this can result in charges to your AWS account.
+
+#### Environment Variables
+
+Set up your custom environment variables by creating a `.env` file in the project root directory with the following content:
      
 ```
 AWS_REGION=<your-aws-region>
@@ -64,6 +80,13 @@ python architecture_chat_demo.py
 
 4. To exit the demo, type `x` and press Enter.
 
+### Tear down
+
+Be sure to tear down any AWS resources you're not using after working through this demo as they may result in charges to your AWS account. The resources to destroy are:
+
+- S3 bucket for your knowledge base data source
+- Amazon Bedrock Knowledge Base
+
 ### Bring your own diagram
 
 Want to chat with your own diagram? Drop an image file (jpg, jpeg, or png) into the `demo` folder and rerun the app. When prompted, enter the full name (excluding the path) of that diagram to chat with.
@@ -78,6 +101,8 @@ Below are some sample queries you could use to chat with an architecture diagram
 - What improvements should be made to the resiliency of this architecture?
 - Convert the data flow from this architecture into a Mermaid formatted sequence diagram.
 - What are the quotas or limits in this architecture?
+- What is the current joy count of the system?
+- Is the current joy count good or bad?
 
 ### Bonus: Generate the infrastructure code
 
