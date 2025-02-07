@@ -84,8 +84,9 @@ python architecture_chat_demo.py
 
 Be sure to tear down any AWS resources you're not using after working through this demo as they may result in charges to your AWS account. The resources to destroy are:
 
-- S3 bucket for your knowledge base data source
 - Amazon Bedrock Knowledge Base
+- S3 bucket for your knowledge base data source
+- Vector database (the OpenSearch Serverless collection, if you set up your knowledge base to use this, or another vector store)
 
 ### Bring your own diagram
 
